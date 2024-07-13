@@ -11,7 +11,6 @@ const Container = styled.div`
     max-width: 480px;
     margin: 0 auto;
     color: ${props => props.theme.textColor};
-    background-color: ${props => props.theme.bgColor};
 
 `
 const Header = styled.header`
@@ -192,8 +191,8 @@ function Coin(){
     const {coinId} = useParams<IParams>();
     const {isLoading : infoLoading, data : infoData} = useQuery<InfoData>({queryKey:["info", coinId] , queryFn:()=> fetchInfo(coinId)})
     const {isLoading : priceLoading, data : priceData} = useQuery<PriceData>({queryKey: ["price", coinId], queryFn: ()=> fetchPrice(coinId)})
-    const priceMatch = useRouteMatch("/:coinId/price")
-    const chartMatch = useRouteMatch("/:coinId/chart")
+    const priceMatch = useRouteMatch(`${process.env.PUBLIC_URL}/:coinId/price`)
+    const chartMatch = useRouteMatch(`${process.env.PUBLIC_URL}/:coinId/chart`)
 
     const {state} = useLocation<IState>();
     const loading = infoLoading || priceLoading;
@@ -253,16 +252,17 @@ function Coin(){
                 </OverviewItem>
             </Overview>
             <Menu>
-                <Tab isActive={priceMatch !== null}><Link to={`/${coinId}/price`}>price</Link></Tab>
+            <Link to={`${process.env.PUBLIC_URL}/${coinId}/price`}>
+            <Tab isActive={priceMatch !== null}>price</Tab></Link>
                 {/* priceMatch는 null 일 수도 있기 때문에 isActive={priceMath}로 할 경우 error 발생 */}
-                <Tab isActive={chartMatch !== null}><Link to={`/${coinId}/chart`}>chart</Link></Tab>
+                <Link to={`${process.env.PUBLIC_URL}/${coinId}/chart`}><Tab isActive={chartMatch !== null}>chart</Tab></Link>
             </Menu>
             </Main>}
             <Switch>
-                <Route path='/:coinId/price'>
+                <Route path={`${process.env.PUBLIC_URL}/:coinId/price`}>
                 {priceData && <Price coinId={coinId} priceData={priceData} />}
                 </Route>
-                <Route path="/:coinId/chart">
+                <Route path={`${process.env.PUBLIC_URL}/:coinId/chart`}>
                 <Chart coinId={coinId} />
                 </Route>
             </Switch>

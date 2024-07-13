@@ -49,7 +49,7 @@ function Router({isDark}: IRouter){
         <div>
         <Nav>
             <NavBtn>
-            <Link to="/">Home</Link>
+            <Link to={`${process.env.PUBLIC_URL}/`}>Home</Link>
             </NavBtn>
             <NavBtn>
                 <button onClick={toggleDarkAtom}>Toggle Dark Mode</button>
@@ -57,10 +57,10 @@ function Router({isDark}: IRouter){
         </Nav>
 
         <Switch>
-        <Route path='/:coinId'>
+        <Route path={`${process.env.PUBLIC_URL}/:coinId`}>
             <Coin />
         </Route>
-        <Route path="/" >
+        <Route path={`${process.env.PUBLIC_URL}/`} >
             <Coins />
         </Route>
         </Switch>
